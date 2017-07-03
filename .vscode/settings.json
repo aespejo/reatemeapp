@@ -1,0 +1,8 @@
+// Place your settings in this file to overwrite the default settings
+{
+    "workbench.welcome.enabled": false,
+    "workbench.iconTheme": "vscode-icons",
+    "typescript.check.tscVersion": false,
+    "editor.tabSize": 4,
+    "workbench.activityBar.visible": true
+}

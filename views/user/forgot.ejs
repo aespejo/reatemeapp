@@ -1,0 +1,56 @@
+<% layout('layout') %>
+<% block('head').append(`
+    <style>
+        .alert ul {
+            list-style:none;
+            text-align:justify;
+        }
+    </style>
+`) %>
+<div class="container">
+    <br><br>
+    <div class="text-center reg_msg">
+        <h1><a href="/">RateMe</a></h1>
+    </div>
+   <br><br>
+   <div class="banner-title text-center reg_msg">
+        <h2 class="fancy"><span>Enter Your Email</span></h2>
+   </div><br>
+    
+    <div class="row signup">
+        <% if(hasErrors) { %>
+            <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <ul>
+                    <% for(var i = 0; i < errors.length ; i++) { %>
+                        <li><%= errors[i] %></li>
+                    <% } %>
+                </ul>
+            </div>
+        <% } %>
+
+        <% if(hasInfo) { %>
+            <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <ul>
+                    <% for(var i = 0; i < info.length ; i++) { %>
+                        <li><%= info[i] %></li>
+                    <% } %>
+                </ul>
+            </div>
+        <% } %>
+        <form method="post" action="/user/forgot">
+            <div class="form-group input_group">
+                <input id="email" class="form-control" name="email" type="text" autocomplete="on" placeholder="EMAIL" style="margin-bottom:20px;">
+            </div>
+
+            <div class="form-group" id="submit">
+                <input type="submit" value="Send" class="form-control btn btn-primary" name="submit">
+            </div>
+        </form>
+
+        <div>
+            <h4>Already reset your password? <a href="/user/signin">Login</a></h4>
+        </div>
+    </div>
+</div>

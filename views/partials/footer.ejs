@@ -1,0 +1,12 @@
+    <script src="/javascripts/jquery-3.2.1.min.js"></script>
+    <script src="/javascripts/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/7e253cfb72.js"></script>
+    <script>
+        $("#menu-toggle").click(function(e) {
+            e.preventDefault();
+            $("#wrapper").toggleClass("toggled");
+        });
+    </script>
+    <%- block('footer').toString() %>
+</body>
+</html>
