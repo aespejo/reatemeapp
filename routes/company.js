@@ -3,7 +3,9 @@ var router      = express.Router();
 var company     = require('../controllers/company.controller.js');
 var passport    = require('passport');
 
-router.get('/create', company.getCompanyCreate);
+router.get('/create', company.getCreate);
+router.post('/create', company.postCreate);
+router.post('/upload', company.postUpload);
 
 router.get('/list', company.getCompanyList);
 router.get('/search', company.getSearch);
