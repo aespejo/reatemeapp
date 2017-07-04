@@ -1,13 +1,11 @@
-// var nodemailer      = require('nodemailer');
-// var smtpTransport   = require('nodemailer-smtp-transport');
-// var async           = require('async');
 var formidable      = require('formidable');
 var path            = require('path');
 var fs              = require('fs');
-var Company         = require('../models/company.model.js')
+var Company         = require('../models/company.model.js');
+var User            = require('../models/user.model.js');
+var async           = require('async');
 
 var companyController   = {};
-
 
 companyController.getCreate = function(req, res, next) {
     let success = req.flash('success');
@@ -38,7 +36,7 @@ companyController.postCreate = function(req, res, next) {
 }
 
 companyController.postUpload = function(req, res, next) {
-    var form = new formidable.IncomingForm();
+    let form = new formidable.IncomingForm();
     form.uploadDir = path.join(__dirname, '../public/uploads');
     form.on('file', (field, file) => {
         fs.rename(file.path,path.join(form.uploadDir, file.name), (err) => {
@@ -58,7 +56,92 @@ companyController.postUpload = function(req, res, next) {
     form.parse(req);
 }
 
-companyController.getCompanyList = function(req, res, next) {}
+companyController.getCompanyList = function(req, res, next) {
+    Company.find({}, (err, data) => {
+        res.render('company/list', {
+            title:"Rate Me || Company List",
+            user: req.user,
+            data: data
+        });
+    });
+}
+
+companyController.getCompanyProfile = function (req, res, next) {
+    Company.findOne({_id:req.params.id}, (err, data) => {
+        if(err) throw err;
+        res.render('company/profile', {
+            title:"Rate Me || Company Profile",
+            user: req.user,
+            data: data,
+            average:0
+        });
+    });
+}
+
+companyController.getCompanyEmployeeForm = function (req, res, next) {
+    console.log(req.user._id);
+    Company.findOne({_id:req.params.id}, (err, data) => {
+        if(err) throw err;
+        res.render('company/register-employee', {
+            title:"Rate Me || Register Employee",
+            user: req.user,
+            data: data
+        });
+    });
+}
+
+companyController.postCompanyEmployeeForm = function (req, res, next) {
+    async.parallel([
+        function(callback) {
+            Company.update(
+                {
+                    _id:                    req.body.idCompany,
+                    'employees.employeeId':             {$ne:req.user._id}
+                },
+                {
+                    $push: {employees:
+                        {
+                            employeeId:         req.user._id,
+                            employeeFullname:   req.user.fullname,
+                            employeeRole:       req.body.role
+                        }
+                    }
+                }, (err, result) => {
+                    callback(err, result);
+                }
+            );
+        },
+        function(callback) {
+            async.waterfall([
+                function(callback) {
+                    Company.findOne({_id:req.body.idCompany}, (err, result) => {
+                        callback(err, result);
+                    });
+                },
+                function(result, callback) {
+                    User.findOne({_id:req.user}, (err, data) => {
+                        callback(true, data);
+                        data.role           = req.body.role;
+                        data.company.name   = result.name;
+                        data.company.image  = result.image;
+
+                        data.save((err) => {
+                            if(err) callback(err,null);
+                            req.flash('success', 'Successfully updated the record');
+                            res.redirect('/company/register/'+req.body.idCompany);
+                        });
+                    })
+                }
+            ])
+        }
+    ], (err, result) => {
+        if(err) {
+            console.log('error');
+            throw err
+        };
+    });
+}
+
 companyController.getSearch = function(req, res, next) {}
 companyController.getLeaderBoard = function(req, res, next) {}
 
