@@ -22,7 +22,7 @@ var companySchema = new mongoose.Schema({
                         userReview: {type: String, default: ''}
                     }],
     ratingNumber:   [Number],
-    ratingSum:      {type: Number, default: 0}
+    ratingSum:      {type:Number, default: 0}
 });
 
 module.exports = mongoose.model('Company', companySchema);

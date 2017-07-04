@@ -22,12 +22,11 @@
                                 <h3><%= data.name %></h3>
                                 <i class="fa fa-map-marker "> <%= data.city %>, <%= data.country %></i><br>
                                 <i class="fa fa-building-o "> <%= data.sector %></i><br>
-                                <i class="fa fa-external-link "><a href="http://<%= data.webiste %>" target="_blank">
-                                    http://<%= data.website %></a>
+                                <i class="fa fa-external-link "><a href="https://<%= data.website %>" target="_blank">http://<%= data.website %></a>
+                                
                                 </i><br><br>
                                 
                                 <a href="/company/review/<%= data._id %>" class="btn btn-success">Rate this company</a><br><br>
-
                                 <a href="/company/employees/<%= data._id %>" class="btn btn-info">View Company Employees</a><br><br>
                                 
                                 <% if(user.company.name != data.name) {%>
