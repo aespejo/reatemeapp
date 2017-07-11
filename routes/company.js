@@ -19,6 +19,8 @@ router.post('/review/:id', company.postReview);
 router.get('/employees/:idCompany', company.getCompanyEmployees);
 
 router.get('/search', company.getSearch);
+router.post('/search', company.postSearch);
+
 router.get('/leaderBoard', company.getLeaderBoard);
 
 module.exports = router;

@@ -145,7 +145,36 @@ companyController.postCompanyEmployeeForm = function (req, res, next) {
     });
 }
 
-companyController.getSearch = function(req, res, next) {}
+companyController.getSearch = function(req, res, next) {
+    res.render('company/search', {
+        title:"Rate Me || Search Company",
+        user: req.user,
+        data:null
+    });
+}
+
+companyController.postSearch = function(req, res, next) {
+    let txtSearch = req.body.search
+    // txtSearch = '/^'+ txtSearch +'/'; // company%
+    // txtSearch = '/'+ txtSearch +'$/'; // %company
+    let regex = new RegExp('^'+txtSearch, 'i'); // case insensitive
+    console.log(txtSearch);
+    Company.find({"name": regex }, (err, result) => {
+        if(err) throw err;
+
+        if(result.length) {
+            res.redirect('/company/profile/'+result[0]._id);
+        } else {
+            res.render('company/search', {
+                title:'Rate Me || Search Company',
+                data: "No Result Found",
+                user: req.user
+            });
+        }
+    });
+}
+
+
 companyController.getLeaderBoard = function(req, res, next) {
     Company.find({},  (err, result) => {
         if(err) throw err;

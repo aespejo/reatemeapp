@@ -1,1 +1,36 @@
-<p>Welcom to the search board</p>
+<% layout('layout') %>
+<div id="wrapper">
+    <% include ../partials/sidebar %>
+    <div id="page-content-wrapper">
+        <% include ../partials/navbar %>
+        <div class="container-fluid main_body">
+			<div class="ul_links">
+	            <ul>
+	                <li><a href="/">Home</a></li> |
+	                <li><a href="#">Companies</a></li> |
+	                <li><a href="#">Search Company</a></li>
+	            </ul>
+	        </div>
+
+            <div class="bodyDiv">
+				<h4 style="">Find a Company</h4>
+                <% if (data == "No Result Found"){ %>
+                    <div class="alert alert-info alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <strong> <%= data %>.</strong>
+                    </div>
+                <% } %>                   
+	            <form action="" method="post" action="/company/search">
+	                <div class="form-group ">
+	                    <input id="" class="form-control" name="search" type="text" placeholder="Type company name" style="margin-bottom:20px;">
+	                </div>
+
+	                <div class="form-group">
+	                    <input type="submit" id="search" value="Search" class="form-control btn btn-primary">
+	                </div>
+	            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
