@@ -7,45 +7,68 @@
 			<div class="ul_links">
 	            <ul>
 	                <li><a href="/">Home</a></li> |
-	                <li><a href="/company/list">All Companies</a></li>
+	                <li><a href="/company/list">Companies</a></li>
 	            </ul>
 	        </div>
 
             <div class="bodyDiv">
 				<h4 style="">Companies</h4>
-				
+                 <!--arrayAverage = function(arr) {
+                        if(!arr.length) return 0;
+                        
+                        var total = 0;
+                        for(var s = 0; s < arr.length; s++) {
+                            total+=arr[s];
+                        }
+                        return total / (arr.length == 0 ? 1 : arr.length);
+                        
+                    } -->
 				<% 
+                    <!--option 2-->
                     arrayAverage = function(arr) {
-                        return _.reduce(arr, (num1, num2) => {
-                            return num1 + num2;
-                        }, 0) / (arr.length === 0 ? 1 : arr.length);
+                        return _.reduce(arr, (num1, num2) => { 
+                             return num1 + num2; }, 0) / (arr.length == 0 ? 1 : arr.length);
                     } 
                 %>
                 
 				<% for(var i = 0; i < data.length; i++) { %>
-                    <% var total = 123 %>
+                    <% var total = arrayAverage(data[i].ratingNumber) %>
 				    <div class="col-xs-12 col-md-6 col-lg-4 companyListDiv">
-                        <a href="/company/profile/<%= data[i]._id %>">
+                        <% if (login) { %>
+                            <a href="/company/profile/<%= data[i]._id %>">
+                        <% } %>
                             <img src="/uploads/<%= data[i].image %>" class="companyListItemLogo">
 
                             <div class="companyListItemInfo">
                                 <h5 class=""><%= data[i].name %></h5>
                                 <span class="">
-                                    <i class="star" data-score="<%= 123 %>"></i>
-                                    *****
+                                    <i class="star" data-score="<%= total %>"></i>
+                                    (<%= data[i].ratingNumber.length %>)
                                 </span><br>
                                 <i class="fa fa-building-o "> <%= data[i].sector %></i><br>
                                 <i class="fa fa-map-marker "> <%= data[i].city %>, <%= data[i].country %></i>
                             </div>
-
-                        </a>
+                        <% if (login) { %></a><% } %>
                     </div>
 				<% } %>
             </div>
-            
         </div>
     </div>
-
 </div>
+
+<% block('footer').append(`
+    <script src="/javascripts/jquery.raty.js"></script>
+    <script>
+        $(document).ready(function() {
+            $.fn.raty.defaults.path = '/images/';
+            $('.star').raty({
+                readOnly:true,
+                score:function(data) {
+                    return $(this).attr('data-score');
+                }
+            });
+        });
+    </script>
+`) %>
 
 

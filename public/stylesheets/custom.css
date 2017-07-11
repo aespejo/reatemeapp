@@ -159,7 +159,7 @@ input[type="submit"]{
     background-color: white;
     height: auto;
     margin-bottom: 50px;
-    width: 100%;
+    /*width: 100%;*/
 }
 
 .mainDiv h3{
@@ -196,8 +196,8 @@ input[type="submit"]{
 
 .colDiv .col-md-4{
     border: 1px solid #e7e7e7;
-    margin: 0px 5px 20px 10px;
-    width: 270px;
+    margin: 0px 0px 5px 5px;
+    width: 260px;
     height: 150px;
     color: #73879C;
 }

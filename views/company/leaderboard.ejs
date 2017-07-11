@@ -1,1 +1,40 @@
-<p>Welcom to the leader board</p>
+<% layout('layout') %>
+<div id="wrapper">
+    <% include ../partials/sidebar %>
+    <div id="page-content-wrapper">
+        <% include ../partials/navbar %>
+        <div class="container-fluid main_body">
+			<div class="ul_links">
+	            <ul>
+	                <li><a href="/">Home</a></li> |
+	                <li><a href="/company/list">All Companies</a></li> |
+	                <li><a href="#">Leaderbaord</a></li>
+	            </ul>
+	        </div>
+
+            <div class="bodyDiv">
+				<h4 style="">Leaderbaord</h4>		
+				<% for(var i = 0; i < data.length; i++) {%>
+                    <% var index = _.indexOf(data, data[i]) %>
+				    <div class="col-xs-12 col-md-6 col-lg-4 companyListDiv">
+                        <% if (login) {%>
+                        <a href="/company/profile/<%= data[i]._id %>">
+                        <% } %>
+                            <img src="/uploads/<%= data[i].image %>" class="companyListItemLogo">
+
+                            <div class="companyListItemInfo">
+                                <h5 class=""><%= data[i].name %></h5>
+                                <span class="">
+                                    <%= data[i].ratingSum %> Total Stars
+                                </span><br>
+                                <h5>#<%= index + 1 %></h5>
+                            </div>
+                        <% if(login) { %></a> <% } %>
+                    </div>
+				<% } %>
+            </div>
+        </div>
+    </div>
+</div>
+
+

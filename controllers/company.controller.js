@@ -4,6 +4,7 @@ var fs              = require('fs');
 var Company         = require('../models/company.model.js');
 var User            = require('../models/user.model.js');
 var async           = require('async');
+var myFunc          = require('../functions');
 
 var companyController   = {};
 
@@ -70,16 +71,15 @@ companyController.getCompanyProfile = function (req, res, next) {
     Company.findOne({_id:req.params.id}, (err, data) => {
         if(err) throw err;
         res.render('company/profile', {
-            title:"Rate Me || Company Profile",
-            user: req.user,
-            data: data,
-            average:0
+            title:  "Rate Me || Company Profile",
+            user:   req.user,
+            data:   data,
+            average:myFunc.arrAverager(data.ratingNumber)
         });
     });
 }
 
 companyController.getCompanyEmployeeForm = function (req, res, next) {
-    console.log(req.user._id);
     Company.findOne({_id:req.params.id}, (err, data) => {
         if(err) throw err;
         res.render('company/register-employee', {
@@ -146,7 +146,16 @@ companyController.postCompanyEmployeeForm = function (req, res, next) {
 }
 
 companyController.getSearch = function(req, res, next) {}
-companyController.getLeaderBoard = function(req, res, next) {}
+companyController.getLeaderBoard = function(req, res, next) {
+    Company.find({},  (err, result) => {
+        if(err) throw err;
+        res.render('company/leaderboard', {
+            title:"Rate Me || Leaderboard",
+            user: req.user,
+            data: result
+        });
+    }).sort({'ratingSum':-1});
+}
 
 companyController.getReview = function(req, res, next) {
     let message = req.flash('success');
@@ -170,7 +179,6 @@ companyController.postReview = function(req, res, next) {
             });
         },
         function(result, callback) {
-            console.log(req.body);
             Company.update(
             {
                 _id:req.params.id
@@ -197,6 +205,17 @@ companyController.postReview = function(req, res, next) {
             })
         }
     ]);
+}
+
+companyController.getCompanyEmployees = function (req, res, next) {
+    Company.findById(req.params.idCompany,  (err, result) => {
+        if(err) throw err;
+        res.render('company/employee-list', {
+            title:"Rate Me || Employee list",
+            user: req.user,
+            data: result
+        });
+    })
 }
 
 module.exports = companyController;

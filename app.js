@@ -1,18 +1,18 @@
-var express       = require('express');
-var path          = require('path');
-var favicon       = require('serve-favicon');
-var logger        = require('morgan');
-var passport      = require('passport');
-var mongoose      = require('mongoose');
-var cookieParser  = require('cookie-parser');
-var bodyParser    = require('body-parser');
-var ejs           = require('ejs');
-var engine        = require('ejs-mate');
-var session       = require('express-session');
-var flash         = require('connect-flash');
-var validator     = require('express-validator');
-var MongoStore    = require('connect-mongo')(session);
-
+var express         = require('express');
+var path            = require('path');
+var favicon         = require('serve-favicon');
+var logger          = require('morgan');
+var passport        = require('passport');
+var mongoose        = require('mongoose');
+var cookieParser    = require('cookie-parser');
+var bodyParser      = require('body-parser');
+var ejs             = require('ejs');
+var engine          = require('ejs-mate');
+var session         = require('express-session');
+var flash           = require('connect-flash');
+var validator       = require('express-validator');
+var MongoStore      = require('connect-mongo')(session);
+var _               = require('underscore');
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/rateme');
@@ -54,14 +54,17 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use( (req, res, next) => {
-    // global variables
+    // set global variables
     if( req.session.cookie.originalMaxAge !== null || req.isAuthenticated() ) {
         res.locals.login = req.isAuthenticated();
     } else {
         res.locals.login = null;
     }
+    res.locals._ = _;
     next();
 })
+
+
 
 
 app.use('/user', userRoute);

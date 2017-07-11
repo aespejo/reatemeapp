@@ -16,6 +16,8 @@ router.post('/register', company.postCompanyEmployeeForm);
 router.get('/review/:id', company.getReview);
 router.post('/review/:id', company.postReview);
 
+router.get('/employees/:idCompany', company.getCompanyEmployees);
+
 router.get('/search', company.getSearch);
 router.get('/leaderBoard', company.getLeaderBoard);
 
