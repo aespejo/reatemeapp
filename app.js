@@ -13,6 +13,7 @@ var flash           = require('connect-flash');
 var validator       = require('express-validator');
 var MongoStore      = require('connect-mongo')(session);
 var _               = require('underscore');
+var moment          = require('moment');
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/rateme');
@@ -61,6 +62,7 @@ app.use( (req, res, next) => {
         res.locals.login = null;
     }
     res.locals._ = _;
+    res.locals.moment = moment;
     next();
 })
 

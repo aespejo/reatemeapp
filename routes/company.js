@@ -21,6 +21,9 @@ router.get('/employees/:idCompany', company.getCompanyEmployees);
 router.get('/search', company.getSearch);
 router.post('/search', company.postSearch);
 
+router.get('/message/:id',company.getEmployeeMessages);
+router.post('/message/:id',company.postEmployeeMessages);
+
 router.get('/leaderBoard', company.getLeaderBoard);
 
 module.exports = router;
