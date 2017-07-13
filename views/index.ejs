@@ -1,5 +1,5 @@
 <% layout('layout') -%>
-<% block('head').append('') %>
+    <% block('head').append('') %>
     <div id="wrapper">
         <% include partials/sidebar %>
         <div id="page-content-wrapper">
@@ -8,8 +8,6 @@
                 <% if(login) { %>
                     <h1>Hello, <%= user.fullname %></h1>
                     <p>What do you want to do today?</p>
-
-
                     <div class="row">
                         <div class="col-md-4" id="colDesc">
                             <div class="info-icon"><i class="fa fa-sign-in"></i></div>
@@ -18,7 +16,6 @@
 
                             <a href="/company/create" class="btn btn-block btn-primary link_btn">Add</a>
                         </div>
-
                         <div class="col-md-4" id="colDesc">
                             <div class="info-icon"><i class="fa fa-search"></i></div>
                             <h3 class="text-center">Search</h3>
@@ -26,18 +23,45 @@
 
                             <a href="/company/search" class="btn btn-block btn-primary link_btn">Search</a>
                         </div>
-
                         <div class="col-md-4" id="colDesc">
                             <div class="info-icon"><i class="fa fa-star"></i></div>
                             <h3 class="text-center">Rate</h3>
                             <p class="text-center">Rate and review other companies and get your company reviewed as well.</p>
 
-                            <a href="/companies" class="btn btn-block btn-primary link_btn">Rate</a>
+                            <a href="/company/list" class="btn btn-block btn-primary link_btn">Rate</a>
                         </div>
                     </div>
+                <% } else { %>
 
+                    <h4 style="">Companies</h4>
+
+                    <% arrayAverage = function(arr) {
+                        return _.reduce(arr, (num1, num2) => {
+                            return num1 + num2;
+                        }, 0) / (arr.length === 0 ? 1 : arr.length);
+                    } %>
+                    
+                    <% if(data.length) { %>
+                        <% for(var i = 0; i < data.length; i++) {%>
+                            <% var total = arrayAverage(data[i].ratingNumber) %>
+                            <div class="col-xs-12 col-md-6 col-lg-4 companyListDiv">
+                                <a href="/company/profile/<%= data[i]._id %>">
+                                    <img src="/uploads/<%= data[i].image %>" class="companyListItemLogo">
+
+                                    <div class="companyListItemInfo">
+                                        <h5 class=""><%= data[i].name %></h5>
+                                        <span class="">
+                                            <i class="star" data-score="<%= total %>"></i>
+                                            (<%= data[i].ratingNumber.length %>)
+                                        </span><br>
+                                        <i class="fa fa-building-o "> <%= data[i].sector %></i><br>
+                                        <i class="fa fa-map-marker "> <%= data[i].city %>, <%= data[i].country %></i>
+                                    </div>
+                                </a>
+                            </div>
+                        <% } %>
+                    <% } %>
                 <% } %>
-                
             </div>
         </div>
     </div>
