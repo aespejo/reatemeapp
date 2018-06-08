@@ -1,31 +1,20 @@
 <!-- Sidebar -->
 <div id="sidebar-wrapper">
     <div class="sidebar-brand">
-        <% if(login) { %>
-            <a href="/">RateMe</a>
-        <% } %>
+        
     </div>
     <ul class="sidebar-nav">
-        <% if(login) { %>
-            <img src="http://placehold.it/100/fff&amp;?text=<%= user.fullname.charAt(0) %>" class="img-responsive img-circle profile_img" alt="">
+        <% if (login) { %>
+            <img src="http://placehold.it/100x100" class="img-responsive img-circle profile_img" alt="">
             <div class="profile_info">
                 <span>Welcome,</span>
                 <h2><%= user.fullname %></h2>
             </div>
-            <li><a href="/"><i class="fa fa-home"></i>Home</a></li>
-            <li><a href="/company/list"><i class="fa fa-building-o"></i>Companies</a></li>
-            <li><a href="/company/search"><i class="fa fa-search"></i>Company Search</a></li>
-            <li><a href="/company/leaderboard"><i class="fa fa-bars"></i>Leaderboard</a></li>
-        <% } else { %>
-            <img src="http://placehold.it/100x100/fff&amp;?text=Guest" class="img-responsive img-circle profile_img" alt="">
-            <div class="profile_info">
-                <span>Welcome,</span>
-                <h2>Guest</h2>
-            </div>
-            <li><a href="/user/signup"><i class="fa fa-registered"></i> Register Here</a></li>
-            <li class="lists">As a guest you can see the companies that have signed up to our platform.</li>
-            <li class="lists">After registration, you can register a company, rate and review other companies.</li>
         <% } %>
+        <li><a href="/"><i class="fa fa-home"></i>Home</a></li>
+        <li><a href="/company/list"><i class="fa fa-building-o"></i>Companies</a></li>
+        <li><a href="/company/search"><i class="fa fa-search"></i>Company Search</a></li>
+        <li><a href="/company/leaderboard"><i class="fa fa-bars"></i>Leaderboard</a></li>
     </ul>
 </div>
 <!-- End sidebar -->

@@ -15,15 +15,7 @@ router.post('/signin',signinValidation, passport.authenticate('local.signin', {
     } else {
         req.session.cookie.expires = false;
     }
-
-    if(req.session.oldURL) {
-        var oldUrl = req.session.oldURL;
-        req.session.oldURL = null;
-        res.redirect(oldUrl);
-    } else {
-        res.redirect('/');
-    }
-    
+    res.redirect('/');
 });
 
 router.get('/signup', user.getSignup);
@@ -35,19 +27,10 @@ router.post('/signup',signupValidation, passport.authenticate('local.signup', {
 
 router.get('/auth/facebook', passport.authenticate('facebook', {scope:['email']} ));
 router.get('/auth/facebook/callback', passport.authenticate('facebook', {
-    // successRedirect:    '/',
+    successRedirect:    '/',
     failureRedirect:    '/user/signin',
     failureFlash:       true
-}), (req, res, next) => {
-    console.log(req.session);
-    if(req.session.oldURL) {
-        var oldUrl = req.session.oldURL;
-        req.session.oldURL = null;
-        res.redirect(oldUrl);
-    } else {
-        res.redirect('/');
-    }
-});
+}));
 
 router.get('/home', user.getHome);
 
